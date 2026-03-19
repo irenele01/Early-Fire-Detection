@@ -1,0 +1,38 @@
+model:
+  name: yolov8n  # Nano for Pi 3 deployment
+  pretrained: true
+  input_size: 320  # Critical for Pi 3 performance
+
+data:
+  path: data/processed
+  train: images/train
+  val: images/val
+  test: images/test
+  names:
+    0: smoke
+    1: flame
+    2: overheat  # Thermal class
+
+training:
+  epochs: 50
+  batch_size: 16  # Adjust for M3 memory
+  optimizer: SGD
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  device: mps  # Apple Metal Performance Shaders
+
+augmentation:
+  hsv_h: 0.015  # Minimal hue shift (preserve fire colors)
+  hsv_s: 0.7
+  hsv_v: 0.4
+  flipud: 0.0   # Fire doesn't appear upside down
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.0
+
+export:
+  formats: [onnx]
+  simplify: true
+  opset: 12

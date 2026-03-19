@@ -1,0 +1,7 @@
+splits:
+  train: 0.7    # 70% for training
+  val: 0.2      # 20% for validation
+  test: 0.1     # 10% for testing
+stratify_by:
+  - modality    # Ensure visual/thermal balance
+  - class       # Ensure class balance (smoke/flame/overheat)
