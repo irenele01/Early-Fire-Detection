@@ -1,0 +1,33 @@
+# Secrets — NEVER commit these
+.env
+token.json
+credentials.json
+*.key
+*.pem
+
+# Database
+database/jobs.db
+
+# Generated outputs (resumes, cover letters)
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
