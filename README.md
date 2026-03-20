@@ -49,7 +49,7 @@ Your Phone  ──►  Raspberry Pi 3  ──►  YOLOv8 model  ──►  Teleg
 | Red LED + buzzer *(optional)* | Local hardware alerts | <$5 |
 
 **Total cost: $0–$250** depending on what you already own. The Basic tier (Pi 3 + iPhone) costs nothing if you have the hardware.
-
+**Notes: 
 ---
 
 ## How it works 
@@ -153,6 +153,9 @@ sudo systemctl start dc-efds.service
 
 ## Training Architecture
 ![Alt text](EFDS_Training_architecture.png)
+
+## Inference Architecture
+![Alt text](EDFS_Inference_Architecture.png)
 
 ## Project structure
 
