@@ -1,4 +1,6 @@
 """
+extractors/thermal_extractor.py
+────────────────────────────────
 Extracts metadata and temperature data from FLIR radiometric thermal images.
 
 FLIR radiometric JPEGs store raw sensor counts in proprietary EXIF tags.

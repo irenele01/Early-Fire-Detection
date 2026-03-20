@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 4 of 5 — Run the full ETL pipeline.
 
@@ -31,6 +32,7 @@ from tqdm import tqdm
 
 # ── Path setup (run from project root) ───────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 
 from extractors.base_extractor import ExtractorResult, ImageMetadata, AnnotationData
 from extractors.thermal_extractor import ThermalExtractorResult, ThermalMetadata

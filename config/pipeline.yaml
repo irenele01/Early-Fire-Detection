@@ -1,0 +1,25 @@
+camera:
+  source: "http://192.168.1.XX:8080/video"  # iPhone IP
+  resolution: [640, 480]
+  fps_target: 15
+
+model:
+  path: "models/best.onnx"
+  input_size: 320
+  confidence_threshold: 0.5
+  iou_threshold: 0.45
+
+inference:
+  frame_skip: 3  # Process 1 of 4 frames
+  alert_persistence_frames: 5  # Require 5 consecutive detections
+  threads: 1  # Single-threaded for stability
+
+alerts:
+  telegram_enabled: true
+  gpio_enabled: true
+  save_snapshots: true
+  snapshot_dir: "data/alerts"
+
+database:
+  path: "database/alerts.db"
+  retention_days: 30

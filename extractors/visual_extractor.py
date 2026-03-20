@@ -1,4 +1,6 @@
 """
+extractors/visual_extractor.py
+──────────────────────────────
 Extracts metadata and annotations from RGB image datasets.
 
 Handles the source-specific quirks of each agreed dataset:
