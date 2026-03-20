@@ -1,38 +1,45 @@
+# config/training.yaml
+# DC-EFDS-Lite — Model Training Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# Edit this file, then run: python scripts/train.py
+
 model:
-  name: yolov8n  # Nano for Pi 3 deployment
-  pretrained: true
-  input_size: 320  # Critical for Pi 3 performance
+  name: yolov8n        # Nano variant — only size that fits Pi 3 RAM budget
+  pretrained: true     # Start from COCO weights — faster convergence on small datasets
+  input_size: 320      # CRITICAL: must match inference config on Pi 3
 
 data:
   path: data/processed
   train: images/train
-  val: images/val
-  test: images/test
+  val:   images/val
+  test:  images/test
   names:
     0: smoke
     1: flame
-    2: overheat  # Thermal class
+    2: overheat        # Thermal anomaly class
 
 training:
   epochs: 50
-  batch_size: 16  # Adjust for M3 memory
+  batch_size: 16       # Reduce to 8 if you see MPS out-of-memory errors
   optimizer: SGD
-  lr0: 0.01
-  lrf: 0.01
+  lr0: 0.01            # Initial learning rate
+  lrf: 0.01            # Final LR = lr0 * lrf  (cosine annealing)
   momentum: 0.937
   weight_decay: 0.0005
-  device: mps  # Apple Metal Performance Shaders
+  device: mps          # mps = Apple Silicon M-series  |  cuda = NVIDIA  |  cpu = fallback
+  patience: 20         # Early stopping: halt if no mAP@50 improvement for N epochs
 
 augmentation:
-  hsv_h: 0.015  # Minimal hue shift (preserve fire colors)
-  hsv_s: 0.7
-  hsv_v: 0.4
-  flipud: 0.0   # Fire doesn't appear upside down
-  fliplr: 0.5
-  mosaic: 1.0
-  mixup: 0.0
+  # Fire colour preservation: keep hue shift minimal
+  hsv_h: 0.015         # Hue: ±1.5% — fire is orange/red, must stay in that range
+  hsv_s: 0.7           # Saturation: smoke (low) → flame (high)
+  hsv_v: 0.4           # Value: bright sunlight → dim server room
+  flipud: 0.0          # NEVER flip vertically — fire rises upward
+  fliplr: 0.5          # Horizontal flip is safe and doubles effective training data
+  mosaic: 1.0          # Mosaic augmentation — essential for small smoke detection
+  mixup: 0.0           # MixUp off — blending fire colours degrades class boundaries
 
 export:
   formats: [onnx]
-  simplify: true
-  opset: 12
+  simplify: true       # Fuse BatchNorm + remove identity nodes (~30% size reduction)
+  opset: 12            # Last opset version with full ONNX Runtime ARM support on Pi 3
